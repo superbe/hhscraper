@@ -20,7 +20,8 @@ def clear_description(value):
 
 
 def clear_vacancy(value):
-    return clear_description(value).split('(')[0].replace(',', ';').strip()
+    value = value.replace(',', '/')
+    return clear_description(value).split('(')[0].strip()
 
 
 def clear_salary(value):
