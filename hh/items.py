@@ -63,13 +63,13 @@ class HhItem(scrapy.Item):
     # Регион.
     region = scrapy.Field(output_processor=TakeFirst())
     # Заголовок вакансии.
-    title = scrapy.Field(input_processor=MapCompose(clear_description), output_processor=TakeFirst())
+    # title = scrapy.Field(input_processor=MapCompose(clear_description), output_processor=TakeFirst())
     # Вакансия.
     vacancy = scrapy.Field(input_processor=MapCompose(clear_vacancy), output_processor=TakeFirst())
     # Описание.
-    description = scrapy.Field(input_processor=MapCompose(clear_description), output_processor=TakeFirst())
+    # description = scrapy.Field(input_processor=MapCompose(clear_description), output_processor=TakeFirst())
     # Зарплата.
-    salary = scrapy.Field(input_processor=MapCompose(clear_description), output_processor=TakeFirst())
+    # salary = scrapy.Field(input_processor=MapCompose(clear_description), output_processor=TakeFirst())
     # Минимальная величина вакансии.
     min_salary = scrapy.Field(input_processor=MapCompose(clear_min_salary), output_processor=TakeFirst())
     # Максимальная величина вакансии.
@@ -85,6 +85,6 @@ class HhItem(scrapy.Item):
     # Дата публикации
     publication_date = scrapy.Field(input_processor=MapCompose(clear_date), output_processor=TakeFirst())
     # Организация.
-    organisation = scrapy.Field(input_processor=MapCompose(clear_description), output_processor=TakeFirst())
+    # organisation = scrapy.Field(input_processor=MapCompose(clear_description), output_processor=TakeFirst())
     # Урла организации.
-    organisation_url = scrapy.Field(output_processor=TakeFirst())
+    # organisation_url = scrapy.Field(output_processor=TakeFirst())

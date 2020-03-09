@@ -6,7 +6,7 @@ from scrapy.loader import ItemLoader
 
 
 class HhSpider(scrapy.Spider):
-    name = 'hhspiser'
+    name = 'hhspider'
     allowed_domains = ['perm.hh.ru']
     start_urls = [
         'https://perm.hh.ru/search/vacancy?clusters=true&enable_snippets=true&only_with_salary=true&specialization=1&' +
@@ -55,9 +55,9 @@ class HhSpider(scrapy.Spider):
         item = ItemLoader(HhItem(), response)
         item.add_value('url', response.url)
         item.add_value('region', region)
-        item.add_xpath('title', '//h1[contains(@data-qa, "vacancy-title")]')
+        # item.add_xpath('title', '//h1[contains(@data-qa, "vacancy-title")]')
         item.add_xpath('vacancy', '//h1[contains(@data-qa, "vacancy-title")]')
-        item.add_xpath('salary', '//p[contains(@class, "vacancy-salary")]')
+        # item.add_xpath('salary', '//p[contains(@class, "vacancy-salary")]')
         item.add_xpath('min_salary', '//p[contains(@class, "vacancy-salary")]')
         item.add_xpath('max_salary', '//p[contains(@class, "vacancy-salary")]')
         item.add_xpath('city', '//span[contains(@data-qa, "vacancy-view-raw-address")]')
@@ -65,8 +65,8 @@ class HhSpider(scrapy.Spider):
         item.add_xpath('experience', '//span[contains(@data-qa, "vacancy-experience")]')
         item.add_xpath('employment', '//p[contains(@data-qa, "vacancy-view-employment-mode")]')
         item.add_xpath('publication_date', '//meta[contains(@itemprop, "datePosted")]/@content')
-        item.add_xpath('organisation',
-                       '//a[contains(@class, "vacancy-company-name")]/span[contains(@itemprop, "name")]')
-        item.add_xpath('organisation_url', '//a[contains(@class, "vacancy-company-name")]/@href')
-        item.add_xpath('description', '//div[contains(@data-qa, "vacancy-description")]')
+        # item.add_xpath('organisation',
+        #                '//a[contains(@class, "vacancy-company-name")]/span[contains(@itemprop, "name")]')
+        # item.add_xpath('organisation_url', '//a[contains(@class, "vacancy-company-name")]/@href')
+        # item.add_xpath('description', '//div[contains(@data-qa, "vacancy-description")]')
         yield item.load_item()

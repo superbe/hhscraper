@@ -11,7 +11,7 @@ from datetime import datetime
 class HhPipeline(object):
     def process_item(self, item, spider):
         data_base = mongo_client[spider.name]
-        collection = data_base[type(item).__name__]
+        collection = data_base[type(item).__name__ + '_10_03_2020']
         item.update({'parse_date': datetime.now()})
         collection.insert(item)
         return item
