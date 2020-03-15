@@ -13,6 +13,11 @@ import dateutil.parser
 regex_html = re.compile(r'(\<(/?[^>]+)>)')
 regex_s = re.compile(r'\s+')
 regex_d = re.compile(r'\d+')
+regex_usd = re.compile(r'USD')
+regex_eur = re.compile(r'EUR')
+
+_USD = 71.38
+_EUR = 79.42
 
 
 def clear_description(value):
@@ -29,11 +34,19 @@ def clear_salary(value):
 
 
 def clear_min_salary(value):
+    if regex_usd.search(value):
+        return int(int(clear_salary(value)[0]) * _USD)
+    if regex_eur.search(value):
+        return int(int(clear_salary(value)[0]) * _EUR)
     return int(clear_salary(value)[0])
 
 
 def clear_max_salary(value):
     result = clear_salary(value)
+    if regex_usd.search(value):
+        return int((int(result[1]) if len(result) == 2 else int(result[0])) * _USD)
+    if regex_eur.search(value):
+        return int((int(result[1]) if len(result) == 2 else int(result[0])) * _EUR)
     return int(result[1]) if len(result) == 2 else int(result[0])
 
 
@@ -43,7 +56,7 @@ def clear_city(value):
 
 def clear_address(value):
     result = clear_description(value).split(',')
-    return int(result[1].strip()) if len(result) == 2 else 'Без адреса'
+    return result[1].strip() if len(result) == 2 else 'Без адреса'
 
 
 def clear_tags(value):
@@ -63,28 +76,24 @@ class HhItem(scrapy.Item):
     parse_date = scrapy.Field(output_processor=TakeFirst())
     # Регион.
     region = scrapy.Field(output_processor=TakeFirst())
-    # Заголовок вакансии.
-    # title = scrapy.Field(input_processor=MapCompose(clear_description), output_processor=TakeFirst())
     # Вакансия.
     vacancy = scrapy.Field(input_processor=MapCompose(clear_vacancy), output_processor=TakeFirst())
     # Описание.
     # description = scrapy.Field(input_processor=MapCompose(clear_description), output_processor=TakeFirst())
-    # Зарплата.
-    # salary = scrapy.Field(input_processor=MapCompose(clear_description), output_processor=TakeFirst())
     # Минимальная величина вакансии.
     min_salary = scrapy.Field(input_processor=MapCompose(clear_min_salary), output_processor=TakeFirst())
     # Максимальная величина вакансии.
     max_salary = scrapy.Field(input_processor=MapCompose(clear_max_salary), output_processor=TakeFirst())
     # Город.
-    city = scrapy.Field(input_processor=MapCompose(clear_city), output_processor=TakeFirst())
+    # city = scrapy.Field(input_processor=MapCompose(clear_city), output_processor=TakeFirst())
     # Адрес.
-    address = scrapy.Field(input_processor=MapCompose(clear_address), output_processor=TakeFirst())
+    # address = scrapy.Field(input_processor=MapCompose(clear_address), output_processor=TakeFirst())
     # Опыт работы.
-    experience = scrapy.Field(input_processor=MapCompose(clear_tags), output_processor=TakeFirst())
+    # experience = scrapy.Field(input_processor=MapCompose(clear_tags), output_processor=TakeFirst())
     # Занятость.
-    employment = scrapy.Field(input_processor=MapCompose(clear_tags), output_processor=TakeFirst())
+    # employment = scrapy.Field(input_processor=MapCompose(clear_tags), output_processor=TakeFirst())
     # Дата публикации
-    publication_date = scrapy.Field(input_processor=MapCompose(clear_date), output_processor=TakeFirst())
+    # publication_date = scrapy.Field(input_processor=MapCompose(clear_date), output_processor=TakeFirst())
     # Организация.
     # organisation = scrapy.Field(input_processor=MapCompose(clear_description), output_processor=TakeFirst())
     # Урла организации.
